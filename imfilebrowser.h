@@ -15,6 +15,9 @@
 #   error "include imgui.h before this header"
 #endif
 
+#define FB_LABEL_OK _("Ok")
+#define FB_LABEL_CANCEL _("Cancel")
+
 using ImGuiFileBrowserFlags = int;
 
 enum ImGuiFileBrowserFlags_
@@ -481,7 +484,7 @@ inline void ImGui::FileBrowser::Display()
             InputText("name", newDirNameBuf_->data(), newDirNameBuf_->size());
             SameLine();
 
-            if(Button("ok") && (*newDirNameBuf_)[0] != '\0')
+            if(Button(FB_LABEL_OK) && (*newDirNameBuf_)[0] != '\0')
             {
                 ScopeGuard closeNewDirPopup([] { CloseCurrentPopup(); });
                 if(create_directory(pwd_ / newDirNameBuf_->data()))
@@ -623,7 +626,7 @@ inline void ImGui::FileBrowser::Display()
 
     if(!(flags_ & ImGuiFileBrowserFlags_SelectDirectory))
     {
-        if(Button(" ok ") && !selectedFilenames_.empty())
+        if(Button(FB_LABEL_OK) && !selectedFilenames_.empty())
         {
             ok_ = true;
             CloseCurrentPopup();
@@ -631,7 +634,7 @@ inline void ImGui::FileBrowser::Display()
     }
     else
     {
-        if(Button(" ok "))
+        if(Button(FB_LABEL_OK))
         {
             ok_ = true;
             CloseCurrentPopup();
@@ -641,7 +644,7 @@ inline void ImGui::FileBrowser::Display()
     SameLine();
 
     bool shouldExit =
-        Button("cancel") || closeFlag_ ||
+        Button(FB_LABEL_CANCEL) || closeFlag_ ||
         ((flags_ & ImGuiFileBrowserFlags_CloseOnEsc) &&
         IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows) &&
         IsKeyPressed(ImGuiKey_Escape));
